@@ -614,6 +614,9 @@ bool LocalizationManager::detect_system_locale(const std::vector<std::string> &l
     }
 
     const std::string system_locale = DetectSystemLocale();
+
+    std::cout << system_locale;
+
     if (system_locale.empty())
     {
         return false;
