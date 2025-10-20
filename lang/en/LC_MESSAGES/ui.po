@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: fast_calc\n"
+"POT-Creation-Date: 2024-05-12 00:00+0000\n"
+"PO-Revision-Date: 2024-05-12 00:00+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "main.title"
+msgstr "FTXUI Calculator"
+
+msgid "main.input_placeholder"
+msgstr "Enter an expression..."
+
+msgid "main.tabs.calculator"
+msgstr "Calculator"
+
+msgid "main.tabs.help"
+msgstr "Help"
+
+msgid "main.tabs.about"
+msgstr "About"
+
+msgid "history.empty"
+msgstr "History is empty."
+
+msgid "history.entry_prefix"
+msgstr "> "
+
+msgid "text_screen.empty"
+msgstr "No lines"
+
+msgid "about"
+msgstr "FTXUI Calculator"

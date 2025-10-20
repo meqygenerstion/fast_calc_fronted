@@ -139,42 +139,6 @@ void ConfigManager::save()
     write_file(config_file_path_, stream.str());
 }
 
-void ConfigManager::set_locale(const string &locale)
-{
-    if (locale.empty())
-    {
-        if (auto *general = config_data_.get_as<toml::table>("general"))
-        {
-            general->erase("locale");
-            if (general->empty())
-            {
-                config_data_.erase("general");
-            }
-        }
-        return;
-    }
-
-    if (auto *general = EnsureTable(config_data_, "general"))
-    {
-        general->insert_or_assign("locale", locale);
-    }
-}
-
-string ConfigManager::get_locale() const
-{
-    if (const auto *general = FindTable(config_data_, "general"))
-    {
-        if (const auto *locale_node = general->get("locale"))
-        {
-            if (auto value = locale_node->value<string>())
-            {
-                return *value;
-            }
-        }
-    }
-    return {};
-}
-
 void ConfigManager::set_color(const string &element, const string &color)
 {
     if (auto *colors = EnsureTable(config_data_, "colors"))

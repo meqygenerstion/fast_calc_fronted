@@ -3,6 +3,19 @@ project(fast_calc)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(Intl REQUIRED)
+
+function(target_link_with_intl target)
+  if (TARGET Intl::Intl)
+    target_link_libraries(${target} PRIVATE Intl::Intl)
+  else()
+    target_link_libraries(${target} PRIVATE ${Intl_LIBRARIES})
+    if (Intl_INCLUDE_DIRS)
+      target_include_directories(${target} PRIVATE ${Intl_INCLUDE_DIRS})
+    endif()
+  endif()
+endfunction()
+
 # # --- FetchContent для FTXUI ---
 include(FetchContent)
 include(CTest)
@@ -40,6 +53,7 @@ src/core/file_manager.cpp
 src/core/history_manager.cpp
 src/core/localization.cpp
 src/core/config_manager.cpp
+src/core/detect_locale.cpp
 
 )
 
@@ -49,6 +63,7 @@ target_link_libraries(fast_calc
   PRIVATE ftxui::dom
   PRIVATE ftxui::component
 )
+target_link_with_intl(fast_calc)
 
 if (APPLE)
   target_link_libraries(fast_calc PRIVATE "-framework CoreFoundation")
@@ -124,6 +139,7 @@ target_link_libraries(localization_manager_tests
   PRIVATE ftxui::dom
   PRIVATE Catch2::Catch2WithMain
 )
+target_link_with_intl(localization_manager_tests)
 
 if (APPLE)
   target_link_libraries(localization_manager_tests PRIVATE "-framework CoreFoundation")

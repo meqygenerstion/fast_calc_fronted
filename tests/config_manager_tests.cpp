@@ -92,7 +92,6 @@ TEST_CASE("ConfigManager persists settings to TOML files", "[ConfigManager]")
     ConfigManager manager(config_path.string());
 
     manager.load();
-    manager.set_locale("ru");
     manager.set_color("background", "blue");
     manager.set_key("open", "Ctrl+O");
     manager.save();
@@ -102,17 +101,14 @@ TEST_CASE("ConfigManager persists settings to TOML files", "[ConfigManager]")
     toml::table stored;
     REQUIRE_NOTHROW(stored = toml::parse_file(config_path.string()));
 
-    const auto stored_locale = stored["general"]["locale"].value_or(std::string{});
     const auto stored_color = stored["colors"]["background"].value_or(std::string{});
     const auto stored_key = stored["keys"]["open"].value_or(std::string{});
 
-    CHECK(stored_locale == "ru");
     CHECK(stored_color == "blue");
     CHECK(stored_key == "Ctrl+O");
 
     ConfigManager reloaded(config_path.string());
     reloaded.load();
-    CHECK(reloaded.get_locale() == "ru");
     CHECK(reloaded.get_color("background") == "blue");
     CHECK(reloaded.get_key("open") == "Ctrl+O");
     CHECK(reloaded.get_color("missing").empty());
@@ -142,43 +138,8 @@ TEST_CASE("ConfigManager stores relative paths inside platform config directory"
 
     ConfigManager manager(relative_str);
     manager.load();
-    manager.set_locale("en");
     manager.save();
 
     const fs::path expected_file = expected_root / relative_path / "config.toml";
     REQUIRE(fs::exists(expected_file));
-
-    toml::table stored;
-    REQUIRE_NOTHROW(stored = toml::parse_file(expected_file.string()));
-    const auto reloaded_locale = stored["general"]["locale"].value_or(std::string{});
-    CHECK(reloaded_locale == "en");
-
-    ConfigManager reloaded(relative_str);
-    reloaded.load();
-    CHECK(reloaded.get_locale() == "en");
-}
-
-TEST_CASE("ConfigManager removes locale when empty string provided", "[ConfigManager]")
-{
-    const auto base_dir = MakeTempDir();
-    TempDirGuard cleanup(base_dir);
-    const auto config_path = base_dir / "settings.toml";
-
-    ConfigManager manager(config_path.string());
-    manager.load();
-    manager.set_locale("ru");
-    manager.save();
-    REQUIRE(fs::exists(config_path));
-
-    manager.set_locale("");
-    manager.save();
-
-    ConfigManager reloaded(config_path.string());
-    reloaded.load();
-    CHECK(reloaded.get_locale().empty());
-
-    toml::table stored;
-    REQUIRE_NOTHROW(stored = toml::parse_file(config_path.string()));
-    const auto *general = stored.get_as<toml::table>("general");
-    CHECK((general == nullptr || general->empty()));
 }

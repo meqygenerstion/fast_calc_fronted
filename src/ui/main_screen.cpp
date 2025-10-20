@@ -204,35 +204,11 @@ void MainScreen::Run()
 
     screen.Loop(renderer);
 
-    config_.set_locale(localization_.current_locale());
     config_.save();
 }
 
 void MainScreen::init_from_config()
 {
-    const std::string configured_locale = config_.get_locale();
-    if (!configured_locale.empty())
-    {
-        if (!localization_.load_locale(configured_locale))
-        {
-            localization_.load();
-            if (!localization_.current_locale().empty())
-            {
-                config_.set_locale(localization_.current_locale());
-                config_dirty_ = true;
-            }
-        }
-    }
-    else
-    {
-        localization_.load();
-        if (!localization_.current_locale().empty())
-        {
-            config_.set_locale(localization_.current_locale());
-            config_dirty_ = true;
-        }
-    }
-
     std::string title_color_name = config_.get_color("title");
     if (title_color_name.empty())
     {
