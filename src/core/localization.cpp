@@ -96,6 +96,8 @@ namespace
         {
             if (const char *value = std::getenv(var))
             {
+                std::cout << value << "123\n";
+
                 if (*value)
                 {
                     const std::string normalized = NormalizeIfValid(value);
