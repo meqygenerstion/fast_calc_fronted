@@ -91,7 +91,7 @@ namespace
 
     std::string DetectLocaleFromEnv()
     {
-        static constexpr const char *kEnvVars[] = {"LC_ALL", "LC_MESSAGES", "LANG", "LANGUAGE"};
+        static constexpr const char *kEnvVars[] = {"LANG", "LANGUAGE"};
         for (const char *var : kEnvVars)
         {
             if (const char *value = std::getenv(var))
