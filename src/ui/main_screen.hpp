@@ -7,21 +7,22 @@
 #include "../core/localization.hpp"
 #include <utility>
 
-class MainScreen {
+class MainScreen
+{
 public:
-    MainScreen(function<double(const string&)> evaluator,
-               ConfigManager& config,
-               LocalizationManager& localization);
+    MainScreen(function<double(const string &)> evaluator,
+               ConfigManager &config,
+               LocalizationManager &localization);
     void Run();
 
 private:
     ScreenInteractive screen = ScreenInteractive::Fullscreen();
     Calc calc;
-    function<double(const string&)> eval_fn;
-    ConfigManager& config_;
-    LocalizationManager& localization_;
+    function<double(const string &)> eval_fn;
+    ConfigManager &config_;
+    LocalizationManager &localization_;
     void init_from_config();
-    std::pair<Color, bool> parse_color(const string& value) const;
+    std::pair<Color, bool> parse_color(const string &value) const;
 
     Color title_color_ = Color::Default;
     Color accent_color_ = Color::Default;

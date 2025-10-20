@@ -303,13 +303,8 @@ namespace
             detected = DetectLocalePosix();
         }
 #else
-        detected = DetectLocalePosix();
+        detected = DetectLocaleFromEnv();
 #endif
-
-        if (detected.empty())
-        {
-            detected = DetectLocaleFromEnv();
-        }
 
         if (!detected.empty())
         {

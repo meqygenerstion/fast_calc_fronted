@@ -41,9 +41,13 @@ double eval_func(const std::string &expr)
 
 int main()
 {
-    ConfigManager config("fast_calc");
+    // ConfigManager config("fast_calc");
     LocalizationManager localization("lang");
-    MainScreen app(eval_func, config, localization);
-    app.Run();
+    localization.detect_system_locale();
+
+    std::cout << localization.current_locale() << "\n";
+
+    // MainScreen app(eval_func, config, localization);
+    // app.Run();
     return 0;
 }
